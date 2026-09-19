@@ -1,41 +1,52 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 void XOboard(char board[3][3]) {
-    cout<<"   1   2   3"<<endl;
+    cout << "   1   2   3" << endl;
 
     for (int i = 0; i < 3; i++) {
-        cout<<i + 1 <<" ";
+        cout << i + 1 << " ";
 
         for (int j = 0; j < 3; j++) {
-            cout<<" "<<board[i][j] <<" ";
+            cout << " " << board[i][j] << " ";
 
             if (j < 2) {
-                cout<<"|";
+                cout << "|";
             }
-
         }
-        cout<<endl;
 
+        cout << endl;
 
         if (i < 2) {
-            cout<<"   ---+---+---"<<endl;
+            cout << "   ---+---+---" << endl;
         }
     }
-    cout<<endl;
+
+    cout << endl;
 }
+
 bool CheckWinner(char board[3][3], char player) {
     for (int i = 0; i < 3; i++) {
-        if ((board[i][0] == player && board[i][1] == player && board[i][2] == player) || (board[0][i] == player && board[1][i] == player && board[2][i] == player))
-        {
+        if ((board[i][0] == player &&
+             board[i][1] == player &&
+             board[i][2] == player) ||
+
+            (board[0][i] == player &&
+             board[1][i] == player &&
+             board[2][i] == player)) {
             return true;
         }
-
     }
-    if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) || (board[0][2] == player && board[1][1] == player && board[2][0] == player))
 
-    {
+    if ((board[0][0] == player &&
+         board[1][1] == player &&
+         board[2][2] == player) ||
+
+        (board[0][2] == player &&
+         board[1][1] == player &&
+         board[2][0] == player)) {
         return true;
     }
 
@@ -50,41 +61,57 @@ bool isBoardFull(char board[3][3]) {
             }
         }
     }
+
     return true;
 }
+
 int main() {
-    char board[3][3]={{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
-    int row,col;
-    char currentplayer='X';
+    char board[3][3] = {
+        {' ', ' ', ' '},
+        {' ', ' ', ' '},
+        {' ', ' ', ' '}
+    };
+
+    int row, col;
+    char currentplayer = 'X';
+
     while (true) {
         XOboard(board);
 
-        cout<<"Player "<<currentplayer<<" , enter row (1-3) and column (1-3): ";
-        cin>>row>>col;
+        cout << "Player " << currentplayer
+             << ", enter row (1-3) and column (1-3): ";
 
-        row--; col--;
+        cin >> row >> col;
 
-        if (row<0 || row>2||col<0 || col>2 || board[row][col]!=' ') {
-            cout<<"Invalid input! , Try again."<<endl;
+        row--;
+        col--;
+
+        if (row < 0 || row > 2 || col < 0 || col > 2 ||
+            board[row][col] != ' ') {
+            cout << "Invalid input! Try again." << endl;
             continue;
         }
-        board[row][col]=currentplayer;
 
-        if (CheckWinner(board,currentplayer)) {
+        board[row][col] = currentplayer;
+
+        if (CheckWinner(board, currentplayer)) {
             XOboard(board);
-            cout<<"Player "<<currentplayer<<" Wins!"<<endl;
+            cout << "Player " << currentplayer << " wins!" << endl;
             break;
         }
+
         if (isBoardFull(board)) {
             XOboard(board);
+            cout << "It's a tie!" << endl;
             break;
         }
 
-        if (currentplayer=='X') {
-            currentplayer='O';
-        }else {
-            currentplayer='X';
+        if (currentplayer == 'X') {
+            currentplayer = 'O';
+        } else {
+            currentplayer = 'X';
         }
     }
+
     return 0;
 }
